@@ -2,23 +2,27 @@ import React from "react";
 import axios from "axios";
 
 class Servey extends React.Component {
+
+  
   constructor(props) {
     super(props);
     this.state = {
       title: "",
-      nom: "",
+      firstName: "",
       birthdate: "",
       location: "",
       currentdate: "",
       feedback: ""
     };
+    
   }
+  
 
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value });
     const {
       title,
-      nom,
+      firstName,
       birthdate,
       location,
       currentdate,
@@ -29,7 +33,7 @@ class Servey extends React.Component {
     event.preventDefault();
     const {
       title,
-      nom,
+      firstName,
       birthdate,
       location,
       currentdate,
@@ -38,33 +42,38 @@ class Servey extends React.Component {
     axios
       .post("http://localhost:4000/servey", {
         title,
-        nom,
+        firstName,
         birthdate,
         location,
         currentdate,
         feedback
       })
-      .then(result => {
+      .then((result) => {
         console.log(result);
+        if (result.status === 200) {
+          alert("Data send with success");
+        }
       })
       .catch(error => {
         console.log(error);
       });
   };
 
+  
+
+
   render() {
+    
     const {
       title,
-      nom,
+      firstName,
       birthdate,
       location,
       currentdate,
       feedback
     } = this.state;
-    let secondForm;
-
     const isTitle = title.length > 0 && title !== '';
-    const isNom = nom.length > 0 && nom !== '';
+    const isfirstName = firstName.length > 0 && firstName !== '';
     const isBirthdate = birthdate.length > 0 && birthdate !== '';
     const isLocation = location.length > 0 && location !== '';
     const isCurrentdate = currentdate.length > 0 && currentdate !== '';
@@ -72,6 +81,8 @@ class Servey extends React.Component {
     
 
     return (
+      
+      
       <div className="container">
         <h1>SERVEY</h1>
         <form onSubmit={this.onSubmit}>
@@ -92,10 +103,10 @@ class Servey extends React.Component {
             <div className="form-group">
               <input
                 type="text"
-                name="nom"
+                name="firstName"
                 className="form-control"
                 placeholder="name"
-                value={nom}
+                value={firstName}
                 onChange={this.onChange}
               />
               <span className="help-block"></span>
@@ -114,7 +125,7 @@ class Servey extends React.Component {
             </div>
           </div>
 
-         {isTitle && isNom && isBirthdate &&
+         {isTitle && isfirstName && isBirthdate &&
           <div >
           <div className="form-group">
             <input
@@ -154,7 +165,7 @@ class Servey extends React.Component {
           </div>
         </div>
          }
-          {(isTitle && isNom && isBirthdate && isLocation && isCurrentdate && isFeedback) && <button type="submit">Submit</button>}
+          {(isTitle && isfirstName && isBirthdate && isLocation && isCurrentdate && isFeedback) && <button type="submit">Submit</button>}
         </form>
       </div>
     );
